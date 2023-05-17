@@ -18,7 +18,7 @@ async function readTalkerData() {
 async function writeNewTalkerData(newTalker) {
   try {
     const oldTalkers = await readTalkerData();
-    const allTalkers = JSON.stringfy([...oldTalkers, newTalker]);
+    const allTalkers = JSON.stringify([...oldTalkers, newTalker], null, 2);
 
     await fs.writeFile(path.resolve(__dirname, TALKER_DATA_PATH), allTalkers);
     console.log('Arquivo escrito com sucesso!');

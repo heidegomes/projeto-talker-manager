@@ -1,7 +1,13 @@
 const express = require('express');
-const { readTalkerData, generateToken } = require('./utils/fsUtils');
+const { readTalkerData, generateToken, writeNewTalkerData } = require('./utils/fsUtils');
 const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
+const validateRate = require('./middlewares/validateRate');
+const validateWatchedAt = require('./middlewares/validateWatchedAt');
+const validateTalk = require('./middlewares/validateTalk');
+const validateAge = require('./middlewares/validateAge');
+const validateName = require('./middlewares/validateName');
+const auth = require('./middlewares/auth');
 
 const app = express();
 app.use(express.json());
@@ -50,3 +56,15 @@ app.post('/login',
       return res.status(200).json({ token: generateToken() });
     }
   });
+
+// Req 5
+app.post('/talker',
+  auth, validateName, validateAge, validateTalk, validateWatchedAt, validateRate, async (req, res) => {
+    const talkers = await readTalkerData();
+    const data = req.body;
+    const newTalker = { id: talkers[talkers.length - 1].id + 1, ...data };
+    await writeNewTalkerData(newTalker);
+    res.status(201).json(newTalker);
+  });
+
+module.exports = app;
