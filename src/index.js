@@ -1,5 +1,7 @@
 const express = require('express');
 const { readTalkerData } = require('./utils/fsUtils');
+const validateEmail = require('./middlewares/validateEmail');
+const validatePassword = require('./middlewares/validatePassword');
 
 const app = express();
 app.use(express.json());
@@ -37,3 +39,14 @@ app.get('/talker/:id', async (req, res) => {
   }
   return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
+
+// Req 3
+app.post('/login',
+  validateEmail,
+  validatePassword,
+  (req, res) => {
+    const { email, password } = req.body;
+    if (email && password) {
+      return res.status(200).json({ token: generateToken() });
+    }
+  });
