@@ -1,4 +1,5 @@
 const express = require('express');
+const { readTalkerData } = require('./utils/fsUtils');
 
 const app = express();
 app.use(express.json());
@@ -14,3 +15,14 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => {
   console.log('Online');
 });
+
+// Req 1
+app.get('/talker', async (req, res) => {
+  const talkers = await readTalkerData();
+  if (talkers) {
+    return res.status(200).json(talkers);
+  }
+  res.status(200).json([]);
+});
+
+module.exports = app;
