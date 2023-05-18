@@ -1,5 +1,5 @@
 const express = require('express');
-const { readTalkerData, generateToken, writeNewTalkerData } = require('./utils/fsUtils');
+const { readTalkerData, generateToken, writeNewTalkerData, updateNewTalkerData } = require('./utils/fsUtils');
 const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
 const validateRate = require('./middlewares/validateRate');
@@ -69,8 +69,41 @@ app.post('/talker',
     const talkers = await readTalkerData();
     const data = req.body;
     const newTalker = { id: talkers[talkers.length - 1].id + 1, ...data };
-    await writeNewTalkerData(newTalker);
+    await writeNewTalkerData([...talkers, newTalker]);
     res.status(201).json(newTalker);
   });
 
+// Req 6
+app.put('/talker/:id',
+  auth,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  async (req, res) => {
+    try {
+      const talkers = await readTalkerData();
+      // console.info(talkers);
+      const data = req.body;
+
+      const { id } = req.params;
+
+      const index = talkers.findIndex((item) => item.id === Number(id));
+      console.info(talkers[index])
+      const idAtual = talkers[index].id;
+
+      talkers[index] = { ...data, id: idAtual };
+      console.table(talkers)
+      await writeNewTalkerData(talkers);
+      return res.status(200).json(talkers[index]);
+    } catch (err) {
+      res.status(404).json({
+        "message": "Pessoa palestrante não encontrada"
+      })
+    }
+  })
+
+// Req 7
+app.delete('/:id')
 module.exports = app;

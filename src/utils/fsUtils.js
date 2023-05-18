@@ -15,10 +15,9 @@ async function readTalkerData() {
   }
 }
 
-async function writeNewTalkerData(newTalker) {
+async function writeNewTalkerData(talkers) {
   try {
-    const oldTalkers = await readTalkerData();
-    const allTalkers = JSON.stringify([...oldTalkers, newTalker], null, 2);
+    const allTalkers = JSON.stringify(talkers, null, 2);
 
     await fs.writeFile(path.resolve(__dirname, TALKER_DATA_PATH), allTalkers);
     console.log('Arquivo escrito com sucesso!');
@@ -26,6 +25,7 @@ async function writeNewTalkerData(newTalker) {
     console.error(`Erro ao ler o arquivo: ${error}`);
   }
 }
+
 
 // utils/generateToken.js
 function generateToken() {
