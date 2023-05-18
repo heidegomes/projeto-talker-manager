@@ -84,26 +84,29 @@ app.put('/talker/:id',
   async (req, res) => {
     try {
       const talkers = await readTalkerData();
-      // console.info(talkers);
       const data = req.body;
-
       const { id } = req.params;
-
       const index = talkers.findIndex((item) => item.id === Number(id));
-      console.info(talkers[index])
       const idAtual = talkers[index].id;
-
       talkers[index] = { ...data, id: idAtual };
-      console.table(talkers)
       await writeNewTalkerData(talkers);
       return res.status(200).json(talkers[index]);
     } catch (err) {
       res.status(404).json({
-        "message": "Pessoa palestrante não encontrada"
-      })
+        message: 'Pessoa palestrante não encontrada',
+      });
     }
-  })
+  });
 
 // Req 7
-app.delete('/:id')
+app.delete('/talker/:id',
+  auth,
+  async (req, res) => {
+    const talkers = await readTalkerData();
+    const { id } = req.params;
+    const deleteTalker = talkers.filter((index) => index.id !== Number(id));
+    await writeNewTalkerData([deleteTalker]);
+    return res.status(204).json();
+  });
+
 module.exports = app;
