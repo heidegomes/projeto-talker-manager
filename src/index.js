@@ -24,6 +24,25 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
+// Req 8
+app.get('/talker/search', 
+  auth,
+  async (req, res) => {
+  const talkers = await readTalkerData();
+  console.log(talkers);
+  const { q } = req.query;
+  console.log('aqui', q);
+  if (q === undefined) {
+    return res.status(200).json(talkers);
+  }
+  const queryTalker = talkers.filter((e) => e.name.includes(q));
+  console.log(queryTalker);
+  if (queryTalker.length === 0) {
+    return res.status(200).json([]);
+  }
+    return res.status(200).json(queryTalker);
+});
+
 // Req 1
 app.get('/talker', async (req, res) => {
   const talkers = await readTalkerData();
