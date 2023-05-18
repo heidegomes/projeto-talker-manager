@@ -59,7 +59,13 @@ app.post('/login',
 
 // Req 5
 app.post('/talker',
-  auth, validateName, validateAge, validateTalk, validateWatchedAt, validateRate, async (req, res) => {
+  auth,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  async (req, res) => {
     const talkers = await readTalkerData();
     const data = req.body;
     const newTalker = { id: talkers[talkers.length - 1].id + 1, ...data };

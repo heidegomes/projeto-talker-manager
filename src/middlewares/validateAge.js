@@ -3,7 +3,7 @@ module.exports = (req, res, next) => {
 
   if (age === undefined) {
     return res.status(400).json(
-      { message: 'O campo \"age\" é obrigatório"' },
+      { message: 'O campo \"age\" é obrigatório' },
     );
   }
 
