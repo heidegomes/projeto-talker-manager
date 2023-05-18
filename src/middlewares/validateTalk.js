@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
 
   if (talk === undefined) {
     return res.status(400).json(
-      { message: 'O campo \"talk\" é obrigatório' },
+      { message: 'O campo "talk" é obrigatório' },
     );
   }
 
