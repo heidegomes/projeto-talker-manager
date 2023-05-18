@@ -1,5 +1,5 @@
 const express = require('express');
-const { readTalkerData, generateToken, writeNewTalkerData, updateNewTalkerData } = require('./utils/fsUtils');
+const { readTalkerData, generateToken, writeNewTalkerData } = require('./utils/fsUtils');
 const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
 const validateRate = require('./middlewares/validateRate');

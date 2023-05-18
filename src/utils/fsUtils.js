@@ -26,7 +26,6 @@ async function writeNewTalkerData(talkers) {
   }
 }
 
-
 // utils/generateToken.js
 function generateToken() {
   return crypto.randomBytes(8).toString('hex');
